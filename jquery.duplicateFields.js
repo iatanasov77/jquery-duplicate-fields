@@ -1,4 +1,11 @@
-
+/**
+ *  jquery.duplicateFields
+ *  version 0.1
+ *  author: Ivan I. Atanasov
+ *  licensed under the GPL3
+ *  https://github.com/iatanasov77/jquery-duplicate-fields
+ */
+ 
 (function ($) {
     $.fn.duplicateElement = function (options) {
         options = $.extend($.fn.duplicateElement.defaults, options);
