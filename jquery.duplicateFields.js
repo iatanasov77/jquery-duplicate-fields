@@ -5,122 +5,111 @@
  *  licensed under the GPL3
  *  https://github.com/iatanasov77/jquery-duplicate-fields
  */
- 
-(function ($) {
-    $.fn.duplicateElement = function (options) {
-        options = $.extend($.fn.duplicateElement.defaults, options);
-        var main = this;
-        var $main = $(main).parent();
 
-        function handleNavigationButtons(ElementTarget) {
-            ElementTarget = ElementTarget.parent();
-            ElementTarget.find(options.class_remove).show();
-            ElementTarget.find(options.class_remove).last().hide();
-            ElementTarget.find(options.class_create).hide();
-            ElementTarget.find(options.class_create).last().show();
-        }
+(function ($) 
+{
+    $.fn.duplicateFields = function (options) 
+    {
+        var options = $.extend({}, $.fn.duplicateFields.defaults, options);
+        
+        return this.each(function () 
+        {   
+            if(!$(this).children().length) {
+                createElement($(this));
+            }
+            
+            initButtons($(this));
+            bindAddEvent($(this));
+            bindRemoveEvent($(this));
+        });
 
         /**
-         * Generate new element
-         * @param target
-         * @param newElement
+         * Init buttons
+         * 
+         * @param container
          */
-        function createElement(target, newElement) {
-            clickNewExecutor(newElement);
-            target.parent().append(newElement);
+        function initButtons(container)
+        {
+            container.find(options.btnRemoveSelector).show();
+            container.find(options.btnRemoveSelector).last().hide();
+            container.find(options.btnAddSelector).hide();
+            container.find(options.btnAddSelector).last().show();
         }
-
 
         /**
          * Generate new fild on click
-         * @param ElementTarget
+         * @param container
          */
-        function clickNewExecutor(ElementTarget) {
-            ElementTarget.find(options.class_create).unbind();
-            //alert(options.class_create  );
-            ElementTarget.on("click", options.class_create, function (event) {
-                
-                var newElement,
-                    isGenerate = $(this).parent(".dinamic-field"),
-                    isStatic = $(this).parent();
-                if (isGenerate.length > 0) {
-                    //console.log('generated');
-                    newElement = isGenerate.clone();
-                } else if (isStatic.length > 0) {
-                    //console.log($(main));
-                    newElement = ElementTarget.clone().addClass("dinamic-field");
-                }
-                //
-                // Handle view of buttons
-                createElement(ElementTarget, newElement);
-                //
-                // Add remove listener
-                clickRemoveExecutor(ElementTarget);
-                //
-                // Callback function on create
+        function bindAddEvent(container) 
+        {
+            container.on("click", options.btnAddSelector, function(event) 
+            {
+                var newElement = createElement(container, $(this));
                 if (typeof options.onCreate === "function") {
                     options.onCreate(newElement, $(this), event);
                 }
-                //
-                // Manage buttons
-                handleNavigationButtons(ElementTarget);
-                //
-                // Prevent Default
+                initButtons(container);
+                
                 event.preventDefault();
                 return false;
             });
         }
 
-        function clickRemoveExecutor(ElementTarget) {
-            ElementTarget.on("click", options.class_remove, function (event) {
-                var isGenerate = $(this).parents(".dinamic-field");
-                var isStatic = $(this).parents(ElementTarget);
-                if (isGenerate.length > 0) {
-                    isGenerate.remove();
-                } else if (isStatic.length > 0) {
-                    ElementTarget.empty();
-                    ElementTarget.hide();
-                    ElementTarget.remove();
-                }
-                //
-                // Callback function on remove
+        /**
+         * Remove a fild on click
+         * @param container
+         */
+        function bindRemoveEvent(container) 
+        {
+            container.on("click", options.btnRemoveSelector, function(event) {
+                removeElement(container, $(this));
+                
                 if (typeof options.onRemove === "function") {
                     options.onRemove($(this));
                 }
-                //
-                // Manage buttons
-                handleNavigationButtons(ElementTarget);
-                //
-                // Prevent Default
+                initButtons(container);
+                
                 event.preventDefault();
                 return false;
             });
         }
+        
+        /**
+         * Create element
+         * 
+         * @param container
+         * @param target
+         */
+        function createElement(container, target) 
+        {
+            var newElement = $(container.attr('data-prototype'));
+            newElement.find(':input').each(function() {
+                var name = $(this).attr('name').replace('__name__', '');
+                $(this).attr('name', name);
+            });
+            container.append(newElement);
+            
+            return newElement;
+        }
 
-        return this.each(function () {
-            var target = $(this);
-            handleNavigationButtons(target);
-            //
-            // Generate new field on click
-            clickNewExecutor(target);
-            //
-            // Hide remove button
-            target.find(options.class_remove).first().hide();
-            //
-            // Remove operation
-            clickRemoveExecutor(target)
-
-        });
+        /**
+         * Remove element
+         * 
+         * @param container
+         * @param target
+         */
+        function removeElement(container, target) 
+        {
+            var elementClass = $(container.attr('data-prototype')).attr('class');
+            target.closest('.' + elementClass).remove();
+        }
     };
-    //
+    
     // Set up the default options.
-    $.fn.duplicateElement.defaults = {
-        tag_name: 'div',
-        tag_id: "#dinamic-fields",
-        clone_model: "#clone-field-model",
-        class_remove: ".remove-this-fields",
-        class_create: ".create-new-fields",
-        onCreate: "",
-        onRemove: ""
+    $.fn.duplicateFields.defaults = {
+        btnRemoveSelector: ".btnRemove",
+        btnAddSelector:    ".btnAdd",
+        onCreate:          false,
+        onRemove:          false
     };
 })(jQuery);
