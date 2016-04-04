@@ -1,4 +1,7 @@
 {
     "name": "jquery-duplicate-fields",
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "dependencies": {
+        "jquery": ">=1.10.2"
+    },
 }
