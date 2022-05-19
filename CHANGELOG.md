@@ -1,3 +1,10 @@
+1.0.0	|	Release date: **19.05.2022**
+============================================
+* New Features:
+  - Update Readme file.
+  - Add Gitignore.
+
+
 0.0.5	|	Release date: **27.09.2021**
 ============================================
 * All Commits before Versioning:
