@@ -1,6 +1,6 @@
 {
   "name": "jquery-duplicate-fields",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "",
   "main": "jquery.duplicateFields.js",
   "scripts": {
@@ -10,7 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/iatanasov77/jquery-duplicate-fields.git"
   },
-  "keywords": ["jquery", "duplicate", "fields"],
+  "keywords": [
+    "jquery",
+    "duplicate",
+    "fields"
+  ],
   "author": "iatanasov77",
   "license": "GPL",
   "bugs": {
