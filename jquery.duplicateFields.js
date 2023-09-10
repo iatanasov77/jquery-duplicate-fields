@@ -6,7 +6,7 @@
  *  https://github.com/iatanasov77/jquery-duplicate-fields
  */
 
-(function ($) 
+(function ($)
 {
     $.fn.duplicateFields = function (options) 
     {
@@ -32,6 +32,7 @@
         {
             container.find(options.btnRemoveSelector).show();
             container.find(options.btnRemoveSelector).last().hide();
+            
             container.find(options.btnAddSelector).hide();
             container.find(options.btnAddSelector).last().show();
         }
@@ -44,13 +45,18 @@
         {
             container.on("click", options.btnAddSelector, function(event) 
             {
-                var newElement = createElement(container, $(this));
+                // Prevent Double Handling onClick
+                container.find( options.btnAddSelector ).hide();
+                container.find( options.btnAddSelector ).removeClass( options.btnAddSelector.substring( 1 ) );
+                
+                var newElement  = createElement(container, $(this));
                 if (typeof options.onCreate === "function") {
                     options.onCreate(newElement, $(this), event);
                 }
                 initButtons(container);
                 
                 event.preventDefault();
+                event.stopPropagation();
                 return false;
             });
         }
