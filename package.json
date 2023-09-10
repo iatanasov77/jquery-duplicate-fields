@@ -1,6 +1,6 @@
 {
   "name": "jquery-duplicate-fields",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "jQuery plugin for Dynamically Adding Form Elements",
   "main": "jquery.duplicateFields.js",
   "scripts": {

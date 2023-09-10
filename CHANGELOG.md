@@ -1,3 +1,11 @@
+1.1.0	|	Release date: **10.09.2023**
+============================================
+* New Features:
+  - Update README.
+* Bug-Fixes:
+  - Fix Double Handling onClick .
+
+
 1.0.1	|	Release date: **10.09.2023**
 ============================================
 * New Features:
