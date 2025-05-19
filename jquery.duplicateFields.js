@@ -110,16 +110,20 @@
          */
         function removeElement(container, target) 
         {
+            /*
             var elementClass = $(container.attr('data-prototype')).attr('class');
             target.closest('.' + elementClass).remove();
+            */
+            target.closest('.' + options.removeElementClass).remove();
         }
     };
     
     // Set up the default options.
     $.fn.duplicateFields.defaults = {
-        btnRemoveSelector: ".btnRemove",
-        btnAddSelector:    ".btnAdd",
-        onCreate:          false,
-        onRemove:          false
+        removeElementClass: "row",
+        btnRemoveSelector:  ".btnRemove",
+        btnAddSelector:     ".btnAdd",
+        onCreate:           false,
+        onRemove:           false
     };
 })(jQuery);
